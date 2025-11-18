@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Sejarah Dunia | Arsip Digital</title>
+    
+    <!-- Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Marked library untuk parsing Markdown --><script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- DOMPurify untuk keamanan HTML --><script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+
+    <!-- Google Fonts: PERUBAHAN - Ganti ke Poppins --><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Palet Warna BARU - Tema Cerah & Vibrant
+                        'brand-purple': '#9F54FF', // Ungu cerah (Tetap)
+                        'brand-cyan': '#39C0ED',   // Cyan cerah (Tetap)
+                        'main-bg': '#F9F9FC',      // Latar belakang utama (BARU: Cerah)
+                        'card-bg': '#FFFFFF',    // Latar belakang kartu (BARU: Putih)
+                        'main-text': '#1A1A1A',   // Teks utama (BARU: Gelap)
+                        'subtle-text': '#666666',  // Teks sekunder (BARU: Abu-abu)
+                        'brand-red': '#D21F3C',    // Tetap untuk error
+                    },
+                    fontFamily: {
+                        // PERUBAHAN: Gunakan Poppins untuk semua
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+/* ... existing code ... -->
+        }
+
+        /* Markdown Styles */
+        .prose h1 { font-size: 2.25rem; font-weight: 700; color: #1A1A1A; margin-bottom: 1rem; font-family: 'Poppins', sans-serif; } /* Diubah */
+        .prose h2 { font-size: 1.75rem; font-weight: 600; color: #1A1A1A; margin-top: 1.5rem; margin-bottom: 0.75rem; font-family: 'Poppins', sans-serif; border-bottom: 2px solid #9F54FF; padding-bottom: 0.5rem; display: inline-block; } /* Diubah */
+        .prose h3 { font-size: 1.5rem; font-weight: 600; color: #1A1A1A; margin-top: 1.25rem; margin-bottom: 0.5rem; font-family: 'Poppins', sans-serif; } /* Diubah */
+        .prose p { margin-bottom: 1rem; line-height: 1.8; color: #666666; text-align: justify; } /* Diubah */
+        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #666666; } /* Diubah */
+        .prose ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; color: #666666; } /* Diubah */
+        .prose strong { color: #9F54FF; font-weight: 600; } /* Diubah */
+        .prose blockquote { border-left: 4px solid #9F54FF; padding-left: 1rem; font-style: italic; color: #666666; background-color: #F9F9FC; padding: 1rem; border-radius: 0 8px 8px 0; } /* Diubah */
+        .prose a { color: #39C0ED; text-decoration: underline; } /* Diubah ke brand-cyan */
+        
+        /* Loader Animation */
+/* ... existing code ... -->
+        .loader {
+            border: 4px solid #f3f3f3; /* Diubah */
+            border-top: 4px solid #9F54FF; /* Diubah ke brand-purple */
+            border-radius: 50%;
+/* ... existing code ... -->
+        /* PERUBAHAN BARU: Efek Glowing Blob */
+        .gradient-blob {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15; /* Dibuat lebih halus untuk latar cerah */
+            z-index: 0;
+            animation: moveBlob 15s infinite alternate;
+/* ... existing code ... -->
+        }
+    </style>
+</head>
+<body class="bg-main-bg min-h-screen flex flex-col font-sans text-main-text overflow-x-hidden"> <!-- Diubah ke bg-main-bg, text-main-text -->
+
+    <!-- Notification Element -->
+    <div id="notification" class="hidden fixed top-20 right-5 z-[100] px-6 py-3 rounded-lg shadow-lg text-white font-medium transition-all duration-300">
+        <span id="notificationText"></span>
+    </div>
+
+    <!-- Header / Navbar --><!-- PERUBAHAN DESAIN HEADER -->
+    <header class="bg-card-bg/80 backdrop-blur-sm text-main-text shadow-sm sticky top-0 z-50 border-b border-gray-200"> <!-- Diubah -->
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <!-- Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                <div>
+                    <!-- Judul dengan Gradien -->
+                    <h1 class="text-2xl font-bold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-brand-purple to-brand-cyan">Portal Sejarah Dunia</h1>
+                    <p class="text-xs text-subtle-text opacity-70">Menyingkap Tabir Masa Lalu Dunia</p> <!-- Diubah -->
+                </div>
+            </div>
+            
+            <!-- Status Badge Diubah -->
+            <div class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full flex items-center"> <!-- Diubah -->
+                <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+                AI Terhubung
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content --><main class="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-4xl relative z-10">
+
+        <!-- PERUBAHAN: Efek Blob di Latar Belakang Hero -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+            <div class="gradient-blob blob-1"></div>
+            <div class="gradient-blob blob-2"></div>
+        </div>
+
+        <!-- Empty State / Hero Info (DIPINDAH KE ATAS) -->
+        <div id="emptyState" class="text-center py-10 px-6">
+             <!-- Judul Hero Diubah -->
+             <h2 class="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-800 via-brand-purple to-brand-cyan"> <!-- Gradien diubah untuk teks gelap -->
+                JELAJAHI MASA LALU
+            </h2>
+            <p class="text-subtle-text text-lg mb-12 max-w-2xl mx-auto">Masukkan topik, tokoh, atau peristiwa. Biarkan AI kami memandu Anda menembus waktu.</p>
+            
+            <!-- Kotak Info Dihapus -->
+        </div>
+
+        <!-- Hero / Search Section (Sekarang di bawah Hero) -->
+        <div class="text-center mb-12 mt-12">
+            <h2 class="text-2xl font-bold text-main-text mb-6">Mulai Pencarian Anda</h2> <!-- Diubah -->
+            
+            <div class="relative max-w-2xl mx-auto">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <input type="text" id="searchInput" 
+                    class="block w-full pl-12 pr-4 py-4 bg-card-bg border-2 border-gray-200 rounded-full leading-5 text-main-text placeholder-gray-400 focus:outline-none focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/50 transition duration-300 shadow-lg text-lg focus:shadow-brand-purple/20"  /* Diubah */
+                    placeholder="Contoh: Revolusi Prancis, Genghis Khan, Kekaisaran Romawi..."
+                    onkeypress="handleEnter(event)">
+                <button onclick="searchHistory()" class="absolute inset-y-1 right-1 bg-brand-purple text-white px-6 py-2 rounded-full hover:bg-opacity-80 transition duration-300 font-medium shadow-md flex items-center">
+                    Cari
+                </button>
+            </div>
+            <!-- Suggestion Chips --><div class="mt-4 flex flex-wrap justify-center gap-2">
+                <button onclick="setQuery('Sejarah Perang Dunia II')" class="px-3 py-1 bg-card-bg border border-gray-200 rounded-full text-sm text-subtle-text hover:border-brand-purple hover:text-brand-purple transition">Perang Dunia II</button> <!-- Diubah -->
+                <button onclick="setQuery('Sejarah Revolusi Industri')" class="px-3 py-1 bg-card-bg border border-gray-200 rounded-full text-sm text-subtle-text hover:border-brand-purple hover:text-brand-purple transition">Revolusi Industri</button> <!-- Diubah -->
+                <button onclick="setQuery('Sejarah Perang Dingin')" class="px-3 py-1 bg-card-bg border border-gray-200 rounded-full text-sm text-subtle-text hover:border-brand-purple hover:text-brand-purple transition">Perang Dingin</button> <!-- Diubah -->
+            </div>
+        </div>
+
+        <!-- Loading State --><div id="loadingState" class="hidden flex-col items-center justify-center py-12">
+            <div class="loader mb-4"></div>
+            <p class="text-subtle-text font-medium animate-pulse">Membuka lembaran sejarah...</p> <!-- Diubah -->
+            <p class="text-xs text-gray-500 mt-2">Mencari informasi dan visual yang relevan.</p> <!-- Diubah -->
+        </div>
+
+        <!-- Result Content --><div id="resultContainer" class="hidden bg-card-bg rounded-2xl shadow-xl overflow-hidden border-t-4 border-brand-purple"> <!-- Border diubah --> <!-- Diubah -->
+            <div class="p-10 md:p-12"> <!-- Padding ditambah -->
+                
+                <!-- Main Article --><article id="contentBody" class="prose max-w-none">
+                    <!-- Content injected via JS --></article>
+
+                <!-- PERUBAHAN HTML: Mulai - Bagian Sumber Referensi DIPINDAH KE SINI (setelah artikel) -->
+                <!-- Saya juga menambahkan margin atas (mt-10), garis pemisah (border-t), dan padding (pt-6) -->
+                <div id="sourcesContainer" class="mb-6 hidden mt-10 border-t border-gray-200 pt-6">
+                    <!-- Tombol Trigger Collapsible -->
+                    <button id="sourcesToggleBtn" class="flex justify-between items-center w-full text-left cursor-pointer group py-2">
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider group-hover:text-brand-purple transition-colors">Sumber Referensi:</h4> <!-- Diubah -->
+                        <!-- Ikon Segitiga (Chevron) -->
+                        <svg id="sourcesChevron" class="h-4 w-4 text-gray-400 transition-transform duration-200 group-hover:text-brand-purple" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <!-- Diubah -->
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <!-- Konten Collapsible (Daftar Sumber) - Tersembunyi default -->
+                    <div id="sourcesList" class="space-y-2 mt-2 hidden"></div>
+                </div>
+                <!-- PERUBAHAN HTML: Selesai -->
+
+            </div>
+            <div class="bg-main-bg px-8 py-4 border-t border-gray-200 flex justify-between items-center"> <!-- Diubah -->
+                <span class="text-xs text-subtle-text/70 italic">Dibuat oleh Gemini AI dengan Grounding Google Search</span> <!-- Diubah -->
+                <button onclick="copyContent()" class="text-sm text-brand-purple font-semibold hover:underline flex items-center gap-1"> <!-- Diubah -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                    Salin Teks
+                </button>
+            </div>
+        </div>
+
+        <!-- Empty State / Initial Info (DIPINDAH KE ATAS) -->
+        <!-- <div id="emptyState" ... > -->
+        <!-- </div> -->
+
+    </main>
+
+    <!-- Footer --><footer class="bg-card-bg text-subtle-text py-8 mt-auto border-t border-gray-200"> <!-- Diubah -->
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-2 font-medium bg-clip-text text-transparent bg-gradient-to-r from-brand-purple to-brand-cyan">Portal Sejarah Dunia</p>
+            <p class="text-sm text-subtle-text/70">"Sejarah adalah guru kehidupan." - Cicero</p> <!-- Warna diubah -->
+            <div class="mt-4 text-xs text-subtle-text/70"> <!-- Warna diubah -->
+                &copy; 2023 Didukung oleh Google Gemini.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Konfigurasi awal
+        const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
+        
+        // Kunci API akan disediakan oleh lingkungan runtime Canvas secara otomatis.
+        const GEMINI_API_KEY = "AIzaSyCWcrLL3CN9Ynz7V7l0Pg6L2djbMBMD01E"; 
+
+        // --- Google Custom Search API Configuration ---
+        const GOOGLE_SEARCH_API_URL = "https://www.googleapis.com/customsearch/v1";
+        
+        // GANTI DENGAN SEARCH ENGINE ID (CX ID) ANDA
+        const GOOGLE_CX_ID = "92ac757e6b2e64d20"; // Ini adalah format yang benar
+        // ------------------------------------------
+
+        // UI References
+        const searchInput = document.getElementById('searchInput');
+        const resultContainer = document.getElementById('resultContainer');
+        const emptyState = document.getElementById('emptyState');
+        const loadingState = document.getElementById('loadingState');
+        const contentBody = document.getElementById('contentBody');
+        const sourcesContainer = document.getElementById('sourcesContainer');
+        const sourcesList = document.getElementById('sourcesList');
+        
+        // --- PERUBAHAN JAVASCRIPT: Referensi untuk Tombol Collapsible ---
+        const sourcesToggleBtn = document.getElementById('sourcesToggleBtn');
+        const sourcesChevron = document.getElementById('sourcesChevron');
+        // --- Akhir Perubahan ---
+        
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+        let notificationTimeout;
+
+        /**
+         * Menampilkan notifikasi non-blocking.
+         * @param {string} message Pesan yang akan ditampilkan.
+         * @param {string} type 'success' (hijau) atau 'error' (merah).
+         */
+        function showNotification(message, type = 'success') {
+            if (notificationTimeout) {
+                clearTimeout(notificationTimeout);
+            }
+            notificationText.innerText = message;
+            
+            if (type === 'error') {
+                notification.style.backgroundColor = '#D21F3C'; // Merah (brand-red)
+            } else {
+                notification.style.backgroundColor = '#22c55e'; // Hijau (tailwind green-500)
+            }
+
+            notification.classList.remove('hidden');
+            notification.classList.add('opacity-100');
+
+            notificationTimeout = setTimeout(() => {
+                notification.classList.add('hidden');
+                notification.classList.remove('opacity-100');
+            }, 3000);
+        }
+
+        // --- PERUBAHAN JAVASCRIPT: Event listener untuk Tombol Collapsible ---
+        sourcesToggleBtn.addEventListener('click', () => {
+            // Toggle (tampilkan/sembunyikan) daftar sumber
+            sourcesList.classList.toggle('hidden');
+            // Putar ikon chevron 180 derajat
+            sourcesChevron.classList.toggle('rotate-180');
+        });
+        // --- Akhir Perubahan ---
+
+
+        function setQuery(text) {
+            searchInput.value = text;
+            searchHistory();
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') searchHistory();
+        }
+
+        /**
+         * Mengambil gambar menggunakan Google Custom Search API.
+         */
+        async function fetchImage(query) {
+            if (!GOOGLE_CX_ID || GOOGLE_CX_ID === "YOUR_CUSTOM_SEARCH_ENGINE_ID_HERE") {
+                console.warn("Google Custom Search Engine ID (CX ID) belum diatur. Gambar tidak akan dimuat.");
+                return null;
+            }
+            
+            const searchQuery = `${query} history OR painting OR archive OR arsip OR lukisan`;
+
+            const url = new URL(GOOGLE_SEARCH_API_URL);
+            url.searchParams.append('key', GEMINI_API_KEY); // Menggunakan API key yang sama
+            url.searchParams.append('cx', GOOGLE_CX_ID);
+            url.searchParams.append('q', searchQuery);
+            url.searchParams.append('searchType', 'image');
+            url.searchParams.append('num', 3); // PERUBAHAN: Mengambil 3 gambar (sebelumnya 1)
+            url.searchParams.append('safe', 'high');
+            url.searchParams.append('imgSize', 'MEDIUM'); 
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.items && data.items.length > 0) {
+                    // PERUBAHAN: Kembalikan array berisi OBJEK (imgUrl dan sourceUrl)
+                    return data.items.map(item => ({
+                        imgUrl: item.link, // URL gambar
+                        sourceUrl: item.image.contextLink, // URL halaman web sumber
+                        sourceTitle: item.title // Judul halaman sumber
+                    }));
+                } else {
+                    console.log('Google Search tidak menemukan gambar untuk:', searchQuery);
+                    return null;
+                }
+            } catch (error) {
+                console.error("Error fetching image from Google Custom Search:", error);
+            }
+            return null;
+        }
+
+        async function searchHistory() {
+            const query = searchInput.value.trim();
+            if (!query) return;
+
+            // Reset UI
+            emptyState.classList.add('hidden');
+            resultContainer.classList.add('hidden');
+            loadingState.classList.remove('hidden');
+            loadingState.classList.add('flex');
+            sourcesContainer.classList.add('hidden');
+            contentBody.innerHTML = ''; // Bersihkan konten sebelumnya
+
+            // --- PERUBAHAN JAVASCRIPT: Reset status collapsible saat pencarian baru ---
+            sourcesList.classList.add('hidden'); // Selalu sembunyikan daftar sumber
+            sourcesChevron.classList.remove('rotate-180'); // Selalu reset ikon chevron
+            // --- Akhir Perubahan ---
+
+            // System Prompt: Persona Sejarawan
+            const systemInstruction = `Anda adalah sejarawan ahli Sejarah Dunia yang profesional, akademis, namun mampu menjelaskan dengan bahasa yang mudah dipahami.
+            
+            Tugas Anda:
+            1. Mencari informasi akurat tentang topik sejarah yang diminta pengguna menggunakan Google Search.
+            2. Menulis artikel sejarah yang komprehensif dalam Format Markdown.
+            3. Struktur artikel harus mencakup:
+               - Judul Besar (H1)
+               - Pendahuluan (Konteks waktu dan tempat)
+               - Isi Utama (Kronologi, Tokoh Penting, Latar Belakang)
+               - Dampak/Signifikansi Global
+               - Kesimpulan
+            4. Gunakan bahasa Indonesia yang baku, sopan, dan mengalir.
+            5. Jika ada tanggal atau tahun yang spesifik, sebutkan dengan jelas.
+            6. Gunakan bold untuk nama tokoh atau peristiwa penting.
+            
+            7. **Instruksi Gambar (PENTING):** Sertakan satu kata kunci gambar dalam format [GAMBAR: ...].
+               - Kata kunci ini HARUS SANGAT SPESIFIK.
+               - PRIORITAS: (1) Nama Tokoh (Contoh: [GAMBAR: Soekarno]), (2) Nama Peristiwa Spesifik (Contoh: [GAMBAR: Proklamasi Kemerdekaan 1945]), (3) Nama Tempat Bersejarah (Contoh: [GAMBAR: Candi Borobudur]).
+               - HINDARI kata kunci umum seperti [GAMBAR: Sejarah Indonesia] atau [GAMBAR: Pahlawan].
+            `;
+
+            const forcedQuery = `Tolong jelaskan secara mendalam tentang sejarah: "${query}". 
+            
+            **PENTING: Gunakan Google Search (tools) untuk mencari fakta-fakta spesifik, tanggal, dan sumber terverifikasi untuk jawaban Anda.** Berikan fakta-fakta kunci dan narasi yang menarik berdasarkan hasil pencarian tersebut.`;
+
+            // Construct Payload
+            const payload = {
+                contents: [{
+                    parts: [{ text: forcedQuery }] 
+                }],
+                tools: [{ google_search: {} }], // Mengaktifkan Grounding
+                systemInstruction: {
+                    parts: [{ text: systemInstruction }]
+                }
+            };
+
+            // Logika retry sederhana untuk API call
+            let response;
+            let attempts = 0;
+            const maxAttempts = 3;
+            const initialBackoff = 1000; // 1 detik
+
+            while (attempts < maxAttempts) {
+                try {
+                    response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok) {
+                        break; // Sukses, keluar dari loop
+                    }
+
+                    // Jika response tidak ok tapi bukan error server (e.g., 429), kita retry
+                    if (response.status === 429 || response.status >= 500) {
+                        console.warn(`Attempt ${attempts + 1} failed with status ${response.status}. Retrying...`);
+                        const backoff = initialBackoff * Math.pow(2, attempts);
+                        await new Promise(resolve => setTimeout(resolve, backoff + Math.random() * 1000));
+                        attempts++;
+                    } else {
+                        // Error klien lain yang tidak bisa di-retry (e.g., 400)
+                        const errorData = await response.json();
+                        throw new Error(errorData.error.message);
+                    }
+                    
+                } catch (error) {
+                     // Error jaringan
+                    console.warn(`Attempt ${attempts + 1} network error. Retrying...`);
+                    const backoff = initialBackoff * Math.pow(2, attempts);
+                    await new Promise(resolve => setTimeout(resolve, backoff + Math.random() * 1000));
+                    attempts++;
+                }
+            }
+            
+            if (!response || !response.ok) {
+                 loadingState.classList.add('hidden');
+                 loadingState.classList.remove('flex');
+                 showNotification(`Gagal menghubungi server setelah ${maxAttempts} percobaan.`, 'error');
+                 emptyState.classList.remove('hidden');
+                 return;
+            }
+
+
+            try {
+                const data = await response.json();
+
+                // ---------------------------------------------
+                // LANGKAH DEBUG: Tampilkan respons mentah di konsol
+                console.log("RESPONS MENTAH DARI API:", data);
+                // ---------------------------------------------
+
+                if (data.error) {
+                    throw new Error(data.error.message);
+                }
+                
+                // Pengecekan jika respons diblokir karena safety
+                if (!data.candidates || data.candidates.length === 0) {
+                    let errorMessage = "Respons dari AI diblokir atau kosong.";
+                    if (data.promptFeedback && data.promptFeedback.blockReason) {
+                        errorMessage = `Permintaan diblokir karena: ${data.promptFeedback.blockReason}`;
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                const candidate = data.candidates[0];
+
+                // Pengecekan safety individu
+                if (candidate.finishReason !== "STOP" && candidate.finishReason !== "MAX_TOKENS") {
+                     throw new Error(`Generasi dihentikan karena: ${candidate.finishReason}`);
+                }
+
+                if (candidate) {
+                    let rawText = candidate.content.parts[0].text;
+                    let imageQuery = null;
+
+                    // Extract image keyword from AI response
+                    const imageKeywordMatch = rawText.match(/\[GAMBAR:\s*(.*?)]/);
+                    if (imageKeywordMatch && imageKeywordMatch[1]) {
+                        imageQuery = imageKeywordMatch[1].trim();
+                        rawText = rawText.replace(imageKeywordMatch[0], '').trim(); // Remove the keyword tag from text
+                    }
+                    
+                    // Render Markdown
+                    let cleanHtml = DOMPurify.sanitize(marked.parse(rawText));
+                    contentBody.innerHTML = cleanHtml;
+
+                    // If an image keyword was found, fetch and insert the image
+                    if (imageQuery) {
+                        // PERUBAHAN: Mengambil array OBJEK, bukan cuma URL
+                        const imageUrls = await fetchImage(imageQuery);
+                        
+                        // Cek jika imageUrls adalah array dan punya isi
+                        if (imageUrls && imageUrls.length > 0) {
+                            
+                            // --- PERUBAHAN BARU: Distribusikan gambar setelah paragraf ---
+                            
+                            // 1. Dapatkan semua elemen paragraf dari artikel
+                            const paragraphs = contentBody.querySelectorAll('p');
+
+                            // 2. Iterasi (looping) melalui setiap OBJEK gambar yang didapat
+                            imageUrls.forEach((imageObject, index) => {
+                                
+                                // 3. Cek apakah ada paragraf untuk indeks ini (paragraf[0], paragraf[1], paragraf[2])
+                                if (paragraphs[index]) {
+                                    
+                                    // 4. Buat HTML untuk satu gambar
+                                    const imageHtml = `
+                                        <figure class="my-6 text-center">
+                                            <a href="${imageObject.sourceUrl}" target="_blank" rel="noopener noreferrer" title="Lihat sumber gambar: ${imageObject.sourceTitle}">
+                                                <img src="${imageObject.imgUrl}" alt="${imageQuery} (gambar ${index + 1})" class="mx-auto rounded-xl shadow-xl max-w-full h-auto" style="max-height: 400px; object-fit: cover;" onerror="this.style.display='none'"> <!-- Diubah ke rounded-xl shadow-xl -->
+                                            </a>
+                                            <figcaption class="text-sm text-gray-500 mt-2">
+                                        Gambar ${index + 1}: ${imageQuery}. 
+                                        <a href="${imageObject.sourceUrl}" target="_blank" rel="noopener noreferrer" class="text-brand-purple hover:underline"> <!-- Diubah -->
+                                            (Lihat Sumber)
+                                        </a>
+                                    </figcaption>
+                                        </figure>
+                                    `;
+                                    
+                                    // 5. Masukkan HTML gambar tersebut SETELAH paragraf yang sesuai
+                                    paragraphs[index].insertAdjacentHTML('afterend', imageHtml);
+                                }
+                                // Jika jumlah gambar > jumlah paragraf, gambar ekstra akan diabaikan.
+                            });
+                            // --- AKHIR PERUBAHAN BARU ---
+                        }
+                    }
+
+                    // Handle Sources (Grounding Metadata)
+                    const groundingMetadata = candidate.groundingMetadata;
+                if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                        sourcesList.innerHTML = '';
+                        const uniqueSources = new Set();
+                        
+                        groundingMetadata.groundingAttributions.forEach(source => {
+                            // Filter out duplicate titles or empty sources
+                            if (source.web && source.web.title && source.web.uri && !uniqueSources.has(source.web.uri)) {
+                                uniqueSources.add(source.web.uri);
+                                
+                                const linkItem = document.createElement('a');
+                                linkItem.href = source.web.uri;
+                                linkItem.target = "_blank";
+                                // Styling baru: Tampil sebagai daftar vertikal
+                                linkItem.className = "block w-full text-sm text-brand-purple hover:underline p-2 bg-main-bg hover:bg-opacity-50 rounded-md transition truncate"; <!-- Diubah -->
+                                
+                                let domain = 'sumber'; // Fallback
+                                try {
+                                    domain = new URL(source.web.uri).hostname.replace('www.', '');
+                                } catch (e) {
+                                    console.warn('Could not parse URL domain:', source.web.uri);
+                                }
+
+                                // Tampilkan Judul dan Domain
+                                linkItem.textContent = `${source.web.title} (${domain})`;
+                                sourcesList.appendChild(linkItem);
+                            }
+                        });
+
+                        if (uniqueSources.size > 0) {
+                            sourcesContainer.classList.remove('hidden');
+                        }
+                    }
+
+                    // Show Results
+                    loadingState.classList.add('hidden');
+                    loadingState.classList.remove('flex');
+                    resultContainer.classList.remove('hidden');
+                } else {
+                    throw new Error("Tidak ada respons dari AI.");
+                }
+
+            } catch (error) {
+                loadingState.classList.add('hidden');
+                loadingState.classList.remove('flex');
+                console.error("Terjadi kesalahan:", error);
+                showNotification(`Terjadi kesalahan: ${error.message}`, 'error');
+                emptyState.classList.remove('hidden');
+            }
+        }
+
+        function copyContent() {
+            const textToCopy = contentBody.innerText;
+
+            // Metode fallback (document.execCommand) untuk kompatibilitas iFrame
+            try {
+                const textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+
+                // Hindari scroll-jump
+                textArea.style.top = "0";
+                textArea.style.left = "0";
+                textArea.style.position = "fixed";
+                textArea.style.opacity = "0"; // Buat tidak terlihat
+
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+
+                if (successful) {
+                    showNotification("Teks berhasil disalin!", 'success');
+                } else {
+                    throw new Error('Gagal menyalin dengan document.execCommand');
+                }
+            } catch (err) {
+                console.error('Gagal menyalin:', err);
+                // Coba metode modern sebagai cadangan jika execCommand gagal
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        showNotification("Teks berhasil disalin!", 'success');
+                    }).catch(clipErr => {
+                        console.error('Gagal menyalin dengan navigator.clipboard:', clipErr);
+                        showNotification('Gagal menyalin teks.', 'error');
+                    });
+                } else {
+                    showNotification('Gagal menyalin teks.', 'error');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
